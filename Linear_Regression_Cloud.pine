@@ -1,0 +1,34 @@
+//@version=3
+study(title="Linear Regression Cloud [R1984]", shorttitle="Linear Regression Cloud [R1984]", overlay=true, precision=8)
+
+// inputs
+lengthDays1 = input(title="Fast Regression Days", type=integer, defval=30, minval=1, maxval=120)
+lengthDays2 = input(title="Slow Regression Days", type=integer, defval=60, minval=1, maxval=120)
+
+// calculations
+totalMinutes1 = lengthDays1 * 1440
+totalMinutes2 = lengthDays2 * 1440
+
+intervalMinutes = if isdaily
+    interval * 1440
+else
+    if isweekly
+        interval * 1440 * 7
+    else
+        if ismonthly
+            interval * 1440 * 365 / 12
+        else
+            interval
+
+linReg1 = linreg(ohlc4, totalMinutes1 / intervalMinutes, 0)
+linReg2 = linreg(ohlc4, totalMinutes2 / intervalMinutes, 0)
+
+// conditional colors
+linRegDeltaFillColor = linReg1 >= linReg2 ? teal : olive
+
+// plots
+linRegPlot1 = plot(linReg1, title="Linear Regression Fast", color=teal, transp=60, linewidth=1)
+linRegPlot2 = plot(linReg2, title="Linear Regression Slow", color=olive, transp=60, linewidth=2)
+
+// fill
+fill(plot1=linRegPlot1, plot2=linRegPlot2, color=linRegDeltaFillColor, transp=85, title="Linear Regression Delta Fill")
