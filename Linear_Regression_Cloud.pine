@@ -3,7 +3,7 @@ study(title="Linear Regression Cloud [R1984]", shorttitle="Linear Regression Clo
 
 // inputs
 lengthDays1 = input(title="Fast Regression Days", type=integer, defval=15, minval=1, maxval=120)
-lengthDays2 = input(title="Medium Regression Days", type=integer, defval=30, minval=1, maxval=120)
+lengthDays2 = input(title="Slow Regression Days", type=integer, defval=30, minval=1, maxval=120)
 lengthDays3 = input(title="Tertiary Regression Days", type=integer, defval=60, minval=1, maxval=120)
 
 // calculations
@@ -28,15 +28,15 @@ linReg3 = linreg(ohlc4, totalMinutes3 / intervalMinutes, 0)
 
 // conditional colors
 linRegDeltaFillColor1 = linReg1 >= linReg2 ? teal : olive
-//linRegDeltaFillColor2 = linReg2 >= linReg3 ? teal : olive
+linRegDeltaFillColor2 = linReg2 >= linReg3 ? silver : silver
 //linRegDeltaFillColor3 = linReg1 >= linReg3 ? teal : olive
 
 // plots
 linRegPlot1 = plot(linReg1, title="Linear Regression Fast", color=teal, transp=60, linewidth=1)
 linRegPlot2 = plot(linReg2, title="Linear Regression Slow", color=olive, transp=60, linewidth=2)
-linRegPlot3 = plot(linReg3, title="Linear Regression Tertiary", color=silver, transp=60, linewidth=3)
+linRegPlot3 = plot(linReg3, title="Linear Regression Tertiary", color=silver, transp=60, linewidth=1)
 
 // fill
 fill(plot1=linRegPlot1, plot2=linRegPlot2, color=linRegDeltaFillColor1, transp=85, title="Linear Regression Fast/Medium Fill")
-//fill(plot1=linRegPlot2, plot2=linRegPlot3, color=linRegDeltaFillColor2, transp=85, title="Linear Regression Medium/Slow Fill")
+fill(plot1=linRegPlot2, plot2=linRegPlot3, color=linRegDeltaFillColor2, transp=95, title="Linear Regression Medium/Slow Fill")
 //fill(plot1=linRegPlot1, plot2=linRegPlot3, color=linRegDeltaFillColor3, transp=85, title="Linear Regression Fast/Slow Fill")
